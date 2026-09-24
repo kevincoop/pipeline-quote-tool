@@ -1,17 +1,40 @@
-/* Layout only; the full styling pass is Session 4. */
 .fields {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
 }
-label input {
-  display: block;
-  width: 8rem;
+
+.breakdown {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.4rem 1rem;
+  max-width: 360px;
+  margin: 1.25rem 0 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-variant-numeric: tabular-nums;
 }
-.error {
-  color: #b00020;
-  margin: 0.25rem 0 0;
+
+.breakdown dt {
+  color: var(--muted);
 }
-.total {
+
+.breakdown dd {
+  margin: 0;
+  text-align: right;
+}
+
+.breakdown .total,
+.breakdown dt:has(+ .total) {
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border);
   font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.save {
+  margin-top: 1.25rem;
 }

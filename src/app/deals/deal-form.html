@@ -1,11 +1,11 @@
-<p><a routerLink="/deals">&larr; All deals</a></p>
+<a routerLink="/deals" class="back">&larr; All deals</a>
 
 @if (notFound()) {
-  <p>Deal not found.</p>
+  <div class="card"><p>Deal not found.</p></div>
 } @else {
   <h2>{{ id() ? 'Edit deal' : 'New deal' }}</h2>
 
-  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card">
     <label>
       Client name
       <input type="text" formControlName="clientName" />
@@ -48,9 +48,9 @@
       <p class="error">Notes are limited to 2000 characters.</p>
     }
 
-    <p>
+    <div class="actions form-actions">
       <button type="submit">{{ id() ? 'Save changes' : 'Add deal' }}</button>
-      <a [routerLink]="id() ? ['/deals', id()] : ['/deals']">Cancel</a>
-    </p>
+      <a [routerLink]="id() ? ['/deals', id()] : ['/deals']" class="btn">Cancel</a>
+    </div>
   </form>
 }

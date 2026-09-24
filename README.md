@@ -1,59 +1,82 @@
-# PipelineQuoteTool
+# Pipeline & Quote
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+A small Angular app for tracking freelance prospects through a sales pipeline and
+pricing work for them when it's time to quote.
 
-## Development server
+## Why I built it
 
-To start a local development server, run:
+I run a freelance web practice and tracked prospects in a spreadsheet: status, how
+good a fit each client is, when to follow up next, with conditional formatting to
+flag anything overdue. Quotes lived in a separate rate calculator. This app puts
+both in one place and mirrors that real workflow rather than a tutorial example.
 
-```bash
-ng serve
+## Features
+
+- **Deals list:** add, edit, and delete prospects; filter by status
+  (Lead → Contacted → Quoted → Won / Lost); sort by next action date or fit score.
+- **Follow-up flags:** open deals past their next action date are marked
+  *Overdue*; those due within 3 days are marked *Upcoming*. Closed deals are
+  never flagged.
+- **Quote calculator:** enter an hourly rate, hours, expenses, and margin and get
+  a live breakdown. The rate is entered per quote because it varies by client and
+  project; it defaults to the deal's last-used rate.
+- **Quote history:** saved quotes snapshot their inputs and results, so past
+  quotes stay accurate when rates change.
+- **Persistence:** everything is stored in the browser's `localStorage`. There is
+  no backend or account.
+
+### Quote formula
+
+```
+total          = hours × rate × (1 + margin% / 100) + expenses
+effective rate = total / hours
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Margin applies to labor only; expenses are billed at cost.
 
-## Code scaffolding
+## Tech stack and Angular patterns
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Angular 22** with **standalone components** (no NgModules)
+- **Signals** for state: `DealService` and `QuoteService` hold data in
+  `signal()`s, expose read-only views, and derive filtered/sorted lists with
+  `computed()`
+- **Reactive Forms** with typed `FormBuilder` groups and validators for the deal
+  form and quote calculator; `toSignal()` turns form changes into a live preview
+- **Angular Router** with route params bound directly to component `input()`s
+  (`withComponentInputBinding`)
+- New control flow (`@if`, `@for`, `@let`) in templates
+- Plain CSS with custom-property design tokens and automatic dark mode; no UI
+  library
 
-```bash
-ng generate component component-name
+## Project structure
+
+```
+src/app/
+  models/      Deal and Quote types
+  services/    StorageService (localStorage), DealService, QuoteService
+  deals/       List, detail, and form components; due-date flag logic
+  quotes/      Quote calculator, quote history, pure pricing function
+  shared/      Date helpers
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Running locally
+
+Requires Node.js 22.22+, 24.15+, or 26+, and npm.
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
 
-## Building
+Then open http://localhost:4200. Use **Load sample deals** on the empty list to
+explore with demo data.
 
-To build the project run:
+## How it was built
 
-```bash
-ng build
-```
+Built with AI-assisted development (Claude Code). I defined the scope, data model,
+and pricing rules from my own workflow, reviewed the generated code, and tested
+each feature by hand.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## License
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[MIT](LICENSE)

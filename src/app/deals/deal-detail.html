@@ -1,26 +1,37 @@
-<p><a routerLink="/deals">&larr; All deals</a></p>
+<a routerLink="/deals" class="back">&larr; All deals</a>
 
 @if (deal(); as deal) {
-  <h2>{{ deal.clientName }}</h2>
-  <dl>
-    <dt>Status</dt>
-    <dd>{{ deal.status }}</dd>
-    <dt>Fit score</dt>
-    <dd>{{ deal.fitScore }}/5</dd>
-    <dt>Next action</dt>
-    <dd>{{ deal.nextActionDate | date: 'mediumDate' }}</dd>
-    <dt>Notes</dt>
-    <dd>{{ deal.notes || '—' }}</dd>
-    <dt>Created</dt>
-    <dd>{{ deal.createdAt | date: 'medium' }}</dd>
-  </dl>
-  <p>
-    <a [routerLink]="['/deals', deal.id, 'edit']">Edit</a>
-    <button type="button" (click)="delete()">Delete</button>
-  </p>
+  <div class="page-head">
+    <h2>{{ deal.clientName }}</h2>
+    <div class="actions">
+      <a [routerLink]="['/deals', deal.id, 'edit']" class="btn">Edit</a>
+      <button type="button" class="btn-danger" (click)="delete()">Delete</button>
+    </div>
+  </div>
 
-  <app-quote-calculator [dealId]="deal.id" />
-  <app-quote-history [dealId]="deal.id" />
+  <section class="card">
+    <dl class="details">
+      <dt>Status</dt>
+      <dd>
+        <span class="badge" [class]="'badge-' + deal.status.toLowerCase()">{{ deal.status }}</span>
+      </dd>
+      <dt>Fit score</dt>
+      <dd>{{ deal.fitScore }}/5</dd>
+      <dt>Next action</dt>
+      <dd>{{ deal.nextActionDate | date: 'mediumDate' }}</dd>
+      <dt>Notes</dt>
+      <dd>{{ deal.notes || '—' }}</dd>
+      <dt>Created</dt>
+      <dd>{{ deal.createdAt | date: 'medium' }}</dd>
+    </dl>
+  </section>
+
+  <section class="card">
+    <app-quote-calculator [dealId]="deal.id" />
+  </section>
+  <section class="card">
+    <app-quote-history [dealId]="deal.id" />
+  </section>
 } @else {
-  <p>Deal not found.</p>
+  <div class="card"><p>Deal not found.</p></div>
 }

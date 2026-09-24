@@ -1,10 +1,13 @@
-<h2>Deals</h2>
-
-<p><a routerLink="/deals/new">+ New deal</a></p>
+<div class="page-head">
+  <h2>Deals</h2>
+  <a routerLink="/deals/new" class="btn btn-primary">+ New deal</a>
+</div>
 
 @if (dealService.deals().length === 0) {
-  <p>No deals yet.</p>
-  <button type="button" (click)="loadSamples()">Load sample deals</button>
+  <div class="card empty">
+    <p>No deals yet. Add your first one, or load sample data to explore.</p>
+    <button type="button" (click)="loadSamples()">Load sample deals</button>
+  </div>
 } @else {
   <div class="controls">
     <label>
@@ -25,38 +28,51 @@
     </label>
   </div>
 
-  @if (visibleDeals().length === 0) {
-    <p>No deals with status {{ statusFilter() }}.</p>
-  } @else {
-    <table>
-      <thead>
-        <tr>
-          <th>Client</th>
-          <th>Status</th>
-          <th>Fit</th>
-          <th>Next action</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (deal of visibleDeals(); track deal.id) {
-          @let due = dueState(deal);
-          <tr [class]="due">
-            <td>
-              <a [routerLink]="['/deals', deal.id]">{{ deal.clientName }}</a>
-            </td>
-            <td>{{ deal.status }}</td>
-            <td>{{ deal.fitScore }}/5</td>
-            <td>
-              {{ deal.nextActionDate | date: 'mediumDate' }}
-              @if (due === 'overdue') {
-                <span class="flag">Overdue</span>
-              } @else if (due === 'upcoming') {
-                <span class="flag">Upcoming</span>
-              }
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
+  <div class="card table-card">
+    @if (visibleDeals().length === 0) {
+      <p class="muted">No deals with status {{ statusFilter() }}.</p>
+    } @else {
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Status</th>
+              <th>Fit</th>
+              <th>Next action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (deal of visibleDeals(); track deal.id) {
+              @let due = dueState(deal);
+              <tr [class]="due">
+                <td>
+                  <a [routerLink]="['/deals', deal.id]" class="client">{{ deal.clientName }}</a>
+                </td>
+                <td>
+                  <span class="badge" [class]="'badge-' + deal.status.toLowerCase()">{{
+                    deal.status
+                  }}</span>
+                </td>
+                <td>
+                  <span class="fit" [attr.aria-label]="deal.fitScore + ' out of 5'"
+                    >{{ '●'.repeat(deal.fitScore)
+                    }}<span class="fit-empty">{{ '●'.repeat(5 - deal.fitScore) }}</span></span
+                  >
+                </td>
+                <td>
+                  {{ deal.nextActionDate | date: 'mediumDate' }}
+                  @if (due === 'overdue') {
+                    <span class="flag">Overdue</span>
+                  } @else if (due === 'upcoming') {
+                    <span class="flag">Upcoming</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
 }

@@ -1,14 +1,15 @@
-/* Layout only; the full styling pass is Session 4. */
+form {
+  max-width: 560px;
+}
+
 label {
-  display: block;
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
-label input,
-label select,
-label textarea {
-  display: block;
+
+label:first-of-type {
+  margin-top: 0;
 }
-.error {
-  color: #b00020;
-  margin: 0.25rem 0 0;
+
+.form-actions {
+  margin-top: 1.25rem;
 }

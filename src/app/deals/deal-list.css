@@ -1,17 +1,63 @@
-/* Functional flag colors only; the full styling pass is Session 4. */
 .controls {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
-tr.overdue {
-  background: #fde2e2;
+
+.controls label {
+  min-width: 11rem;
 }
-tr.upcoming {
-  background: #fff4cc;
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
 }
-.flag {
-  font-size: 0.8em;
+
+.table-card > p {
+  padding: 1.25rem;
+  margin: 0;
+}
+
+.empty p {
+  margin-top: 0;
+}
+
+.client {
   font-weight: 600;
+  text-decoration: none;
+}
+
+.fit {
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.fit-empty {
+  color: var(--border);
+}
+
+tr.overdue td {
+  background: var(--overdue-bg);
+}
+
+tr.upcoming td {
+  background: var(--upcoming-bg);
+}
+
+.flag {
+  display: inline-block;
   margin-left: 0.5em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+tr.overdue .flag {
+  color: var(--overdue-text);
+}
+
+tr.upcoming .flag {
+  color: var(--upcoming-text);
 }
