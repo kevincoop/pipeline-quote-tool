@@ -3,6 +3,10 @@
 A small Angular app for tracking freelance prospects through a sales pipeline and
 pricing work for them when it's time to quote.
 
+![Deals list with overdue and upcoming flags](docs/deals.png)
+
+![Deal detail with quote history](docs/deal-detail.png)
+
 ## Why I built it
 
 I run a freelance web practice and tracked prospects in a spreadsheet: status, how
