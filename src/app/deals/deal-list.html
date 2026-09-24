@@ -1,0 +1,29 @@
+<h2>Deals</h2>
+
+@if (dealService.deals().length === 0) {
+  <p>No deals yet.</p>
+  <button type="button" (click)="loadSamples()">Load sample deals</button>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Status</th>
+        <th>Fit</th>
+        <th>Next action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (deal of dealService.deals(); track deal.id) {
+        <tr>
+          <td>
+            <a [routerLink]="['/deals', deal.id]">{{ deal.clientName }}</a>
+          </td>
+          <td>{{ deal.status }}</td>
+          <td>{{ deal.fitScore }}/5</td>
+          <td>{{ deal.nextActionDate | date: 'mediumDate' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

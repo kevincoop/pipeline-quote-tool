@@ -1,0 +1,19 @@
+<p><a routerLink="/deals">&larr; All deals</a></p>
+
+@if (deal(); as deal) {
+  <h2>{{ deal.clientName }}</h2>
+  <dl>
+    <dt>Status</dt>
+    <dd>{{ deal.status }}</dd>
+    <dt>Fit score</dt>
+    <dd>{{ deal.fitScore }}/5</dd>
+    <dt>Next action</dt>
+    <dd>{{ deal.nextActionDate | date: 'mediumDate' }}</dd>
+    <dt>Notes</dt>
+    <dd>{{ deal.notes || '—' }}</dd>
+    <dt>Created</dt>
+    <dd>{{ deal.createdAt | date: 'medium' }}</dd>
+  </dl>
+} @else {
+  <p>Deal not found.</p>
+}
