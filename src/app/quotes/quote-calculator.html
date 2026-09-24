@@ -1,0 +1,52 @@
+<h3>Quote calculator</h3>
+
+<form [formGroup]="form" (ngSubmit)="save()" novalidate>
+  <div class="fields">
+    <label>
+      Hourly rate ($)
+      <input type="number" formControlName="hourlyRate" min="0" step="0.01" />
+    </label>
+    <label>
+      Hours
+      <input type="number" formControlName="hours" min="0" step="0.25" />
+    </label>
+    <label>
+      Expenses ($)
+      <input type="number" formControlName="expenses" min="0" step="0.01" />
+    </label>
+    <label>
+      Margin (%)
+      <input type="number" formControlName="marginPercent" min="0" step="1" />
+    </label>
+  </div>
+
+  @if (showError('hourlyRate')) {
+    <p class="error">Enter an hourly rate above $0.</p>
+  }
+  @if (showError('hours')) {
+    <p class="error">Enter at least 0.25 hours.</p>
+  }
+  @if (showError('expenses')) {
+    <p class="error">Expenses can't be negative.</p>
+  }
+  @if (showError('marginPercent')) {
+    <p class="error">Margin must be between 0% and 1000%.</p>
+  }
+
+  @if (preview(); as p) {
+    <dl class="breakdown">
+      <dt>Labor</dt>
+      <dd>{{ p.labor | currency: 'USD' }}</dd>
+      <dt>Margin</dt>
+      <dd>{{ p.margin | currency: 'USD' }}</dd>
+      <dt>Expenses (at cost)</dt>
+      <dd>{{ p.expenses | currency: 'USD' }}</dd>
+      <dt>Total quote</dt>
+      <dd class="total">{{ p.total | currency: 'USD' }}</dd>
+      <dt>Effective hourly</dt>
+      <dd>{{ p.effectiveRate | currency: 'USD' }}/hr</dd>
+    </dl>
+  }
+
+  <button type="submit">Save quote</button>
+</form>

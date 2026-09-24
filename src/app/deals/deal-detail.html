@@ -18,6 +18,9 @@
     <a [routerLink]="['/deals', deal.id, 'edit']">Edit</a>
     <button type="button" (click)="delete()">Delete</button>
   </p>
+
+  <app-quote-calculator [dealId]="deal.id" />
+  <app-quote-history [dealId]="deal.id" />
 } @else {
   <p>Deal not found.</p>
 }

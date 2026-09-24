@@ -1,0 +1,34 @@
+<h3>Quote history</h3>
+
+@if (quotes().length === 0) {
+  <p>No saved quotes yet.</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Saved</th>
+        <th>Rate</th>
+        <th>Hours</th>
+        <th>Expenses</th>
+        <th>Margin</th>
+        <th>Total</th>
+        <th>Effective</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (q of quotes(); track q.id) {
+        <tr>
+          <td>{{ q.createdAt | date: 'short' }}</td>
+          <td>{{ q.hourlyRate | currency: 'USD' }}</td>
+          <td>{{ q.hours }}</td>
+          <td>{{ q.expenses | currency: 'USD' }}</td>
+          <td>{{ q.marginPercent }}%</td>
+          <td>{{ q.total | currency: 'USD' }}</td>
+          <td>{{ q.effectiveRate | currency: 'USD' }}/hr</td>
+          <td><button type="button" (click)="delete(q.id)">Delete</button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

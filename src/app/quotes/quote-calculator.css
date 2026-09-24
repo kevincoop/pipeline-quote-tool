@@ -1,0 +1,17 @@
+/* Layout only; the full styling pass is Session 4. */
+.fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+label input {
+  display: block;
+  width: 8rem;
+}
+.error {
+  color: #b00020;
+  margin: 0.25rem 0 0;
+}
+.total {
+  font-weight: 700;
+}
