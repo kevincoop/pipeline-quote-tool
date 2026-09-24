@@ -1,0 +1,14 @@
+/* Layout only; the full styling pass is Session 4. */
+label {
+  display: block;
+  margin-top: 0.75rem;
+}
+label input,
+label select,
+label textarea {
+  display: block;
+}
+.error {
+  color: #b00020;
+  margin: 0.25rem 0 0;
+}

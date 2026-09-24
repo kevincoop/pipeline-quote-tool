@@ -1,29 +1,62 @@
 <h2>Deals</h2>
 
+<p><a routerLink="/deals/new">+ New deal</a></p>
+
 @if (dealService.deals().length === 0) {
   <p>No deals yet.</p>
   <button type="button" (click)="loadSamples()">Load sample deals</button>
 } @else {
-  <table>
-    <thead>
-      <tr>
-        <th>Client</th>
-        <th>Status</th>
-        <th>Fit</th>
-        <th>Next action</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (deal of dealService.deals(); track deal.id) {
+  <div class="controls">
+    <label>
+      Status
+      <select [value]="statusFilter()" (change)="setFilter($any($event.target).value)">
+        <option value="All">All</option>
+        @for (s of statuses; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Sort by
+      <select [value]="sortKey()" (change)="setSort($any($event.target).value)">
+        <option value="nextAction">Next action date</option>
+        <option value="fitScore">Fit score</option>
+      </select>
+    </label>
+  </div>
+
+  @if (visibleDeals().length === 0) {
+    <p>No deals with status {{ statusFilter() }}.</p>
+  } @else {
+    <table>
+      <thead>
         <tr>
-          <td>
-            <a [routerLink]="['/deals', deal.id]">{{ deal.clientName }}</a>
-          </td>
-          <td>{{ deal.status }}</td>
-          <td>{{ deal.fitScore }}/5</td>
-          <td>{{ deal.nextActionDate | date: 'mediumDate' }}</td>
+          <th>Client</th>
+          <th>Status</th>
+          <th>Fit</th>
+          <th>Next action</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (deal of visibleDeals(); track deal.id) {
+          @let due = dueState(deal);
+          <tr [class]="due">
+            <td>
+              <a [routerLink]="['/deals', deal.id]">{{ deal.clientName }}</a>
+            </td>
+            <td>{{ deal.status }}</td>
+            <td>{{ deal.fitScore }}/5</td>
+            <td>
+              {{ deal.nextActionDate | date: 'mediumDate' }}
+              @if (due === 'overdue') {
+                <span class="flag">Overdue</span>
+              } @else if (due === 'upcoming') {
+                <span class="flag">Upcoming</span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 }

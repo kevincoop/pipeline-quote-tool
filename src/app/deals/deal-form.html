@@ -1,0 +1,56 @@
+<p><a routerLink="/deals">&larr; All deals</a></p>
+
+@if (notFound()) {
+  <p>Deal not found.</p>
+} @else {
+  <h2>{{ id() ? 'Edit deal' : 'New deal' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label>
+      Client name
+      <input type="text" formControlName="clientName" />
+    </label>
+    @if (showError('clientName')) {
+      <p class="error">Client name is required (max 100 characters).</p>
+    }
+
+    <label>
+      Status
+      <select formControlName="status">
+        @for (s of statuses; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Fit score
+      <select formControlName="fitScore">
+        @for (n of fitScores; track n) {
+          <option [ngValue]="n">{{ n }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Next action date
+      <input type="date" formControlName="nextActionDate" />
+    </label>
+    @if (showError('nextActionDate')) {
+      <p class="error">Pick a valid date.</p>
+    }
+
+    <label>
+      Notes
+      <textarea formControlName="notes" rows="4"></textarea>
+    </label>
+    @if (showError('notes')) {
+      <p class="error">Notes are limited to 2000 characters.</p>
+    }
+
+    <p>
+      <button type="submit">{{ id() ? 'Save changes' : 'Add deal' }}</button>
+      <a [routerLink]="id() ? ['/deals', id()] : ['/deals']">Cancel</a>
+    </p>
+  </form>
+}

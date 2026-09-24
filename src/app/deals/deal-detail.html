@@ -14,6 +14,10 @@
     <dt>Created</dt>
     <dd>{{ deal.createdAt | date: 'medium' }}</dd>
   </dl>
+  <p>
+    <a [routerLink]="['/deals', deal.id, 'edit']">Edit</a>
+    <button type="button" (click)="delete()">Delete</button>
+  </p>
 } @else {
   <p>Deal not found.</p>
 }
